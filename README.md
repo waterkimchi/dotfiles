@@ -6,6 +6,9 @@ In process of adding scripts.
 
 ## What's in it?
 
-neovim configuration:
+Kitty configuration:
+TBD
+
+NeoVim configuration:
 - fzf for fuzzy file/buffer/tag finding.
 - LazyVim for plugin manager.
