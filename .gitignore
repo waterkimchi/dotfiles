@@ -1,21 +1,6 @@
-*
+.DS_Store
 
-!.gitignore
-!btop/*
-
-!firefox/*
-!firefox/firefox/*
-
-!kitty/*
-!kitty/kitty.d/*
-!kitty/kitty.d/shortcuts/*
-!kitty/sessions/*
-!kitt/themes/*
-
-!lazygit
-
-!nvim
-
-!README.md
-!scripts/*
-
+gh
+git
+.wrangler
+uv
