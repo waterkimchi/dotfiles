@@ -26,11 +26,12 @@ Package info:
 
 <div align="center">
 
-|   name    |        version         |
-| :-------: | :--------------------: |
-|   nvim    |    nvim 0.10 stable    |
-|   kity    |  kitty 0.39.1 stable   |
-| BetterFox | BetterFox 135.0 stable |
+|      name       |        version         |
+| :-------------: | :--------------------: |
+|      nvim       |    nvim 0.10 stable    |
+|      kity       |  kitty 0.39.1 stable   |
+|    BetterFox    | BetterFox 135.0 stable |
+| Meslo Nerd Font |    NF 2.1.0 stable     |
 
 </div>
 
@@ -46,3 +47,7 @@ bash -c "$(curl -fsSL https://raw.githubusercontent.com/Jint-lzxy/nvimconfig/HEA
 ## Acknowledgement
 
 - [ayamir/nvimdots](https://github.com/ayamir/nvimdots)
+
+## License
+
+- [license]()
