@@ -1,5 +1,11 @@
-.DS_Store
-gh
-git
-.wrangler
-uv
+*
+
+!.gitignore
+!btop
+!firefox
+!kitty
+!lazygit
+!nvim
+!README.md
+!scripts
+

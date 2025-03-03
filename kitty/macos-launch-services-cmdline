@@ -1,1 +1,0 @@
---single-instance --override allow_remote_control=socket --listen-on=unix:${TMPDIR}/kitty.${USER}/kitty.{kitty_pid}.0
