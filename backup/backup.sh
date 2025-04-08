@@ -1,9 +1,10 @@
 #!/bin/bash
 
 # --- Configuration ---
-STORAGE_DEVICE="/Volumes/Storage/"
+STORAGE_DEVICE="/Volumes/Storage"
 LOCAL_DOCUMENTS="$HOME/Documents"
 BACKUP_DOCUMENTS="$STORAGE_DEVICE/Documents"
+BACKUP_BACKUP_DOCUMENTS="$STORAGE_DEVICE/Documents_Backup"
 DOTFILES_DIR="$STORAGE_DEVICE/config/dotfiles"
 PASSWORDS_FILE="$STORAGE_DEVICE/config/Passwords.csv"
 
@@ -67,14 +68,17 @@ update_passwords() {
 
 sync_documents() {
 	echo "--- Syncing Documents Folder ---"
+	echo "Making backup of current folder..."
 
 	if [ ! -d "$LOCAL_DOCUMENTS" ]; then
 		echo "Error: Local Documents folder '$LOCAL_DOCUMENTS' not found."
 		return 1
 	fi
 
-	echo "Copying/syncing '$LOCAL_DOCUMENTS' to '$BACKUP_DOCUMENTS'..."
+	echo "Copying/syncing '$BACKUP_DOCUMENTS' to '$BACKUP_BACKUP_DOCUMENTS'..."
+	rsync -avr --progress "$BACKUP_DOCUMENTS/" "$BACKUP_BACKUP_DOCUMENTS/"
 
+	echo "Copying/syncing '$LOCAL_DOCUMENTS' to '$BACKUP_DOCUMENTS'..."
 	rsync -avr --progress "$LOCAL_DOCUMENTS/" "$BACKUP_DOCUMENTS/"
 
 	if [ $? -eq 0 ]; then
