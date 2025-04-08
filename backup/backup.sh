@@ -76,10 +76,10 @@ sync_documents() {
 	fi
 
 	echo "Copying/syncing '$BACKUP_DOCUMENTS' to '$BACKUP_BACKUP_DOCUMENTS'..."
-	rsync -avr --progress "$BACKUP_DOCUMENTS/" "$BACKUP_BACKUP_DOCUMENTS/"
+	rsync -ar --progress --stats "$BACKUP_DOCUMENTS/" "$BACKUP_BACKUP_DOCUMENTS/"
 
 	echo "Copying/syncing '$LOCAL_DOCUMENTS' to '$BACKUP_DOCUMENTS'..."
-	rsync -avr --progress "$LOCAL_DOCUMENTS/" "$BACKUP_DOCUMENTS/"
+	rsync -ar --progress --stats "$LOCAL_DOCUMENTS/" "$BACKUP_DOCUMENTS/"
 
 	if [ $? -eq 0 ]; then
 		echo "Documents folder synced successfully to '$BACKUP_DOCUMENTS'."
