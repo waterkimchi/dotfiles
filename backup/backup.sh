@@ -108,7 +108,7 @@ sync_documents() {
 }
 
 sync_photos() {
-	echo "--- Syncing Photoes ---"
+	echo "--- Syncing Photos ---"
 
 	echo "Copying/syncing '$PHOTOS_LIBRARY' to '$PHOTOS_LIBRARY_BACKUP'"
 	if confirm "Are the destinations for photo backup correct?"; then
