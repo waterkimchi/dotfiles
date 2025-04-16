@@ -1,12 +1,21 @@
 #!/bin/bash
 
 # --- Configuration ---
+# Volumes
 STORAGE_DEVICE="/Volumes/Storage"
+
+# Documents
 LOCAL_DOCUMENTS="$HOME/Documents"
 BACKUP_DOCUMENTS="$STORAGE_DEVICE/Documents"
 BACKUP_BACKUP_DOCUMENTS="$STORAGE_DEVICE/Documents_Backup"
+
+# dotfiles
 DOTFILES_DIR="$STORAGE_DEVICE/config/dotfiles"
 PASSWORDS_FILE="$STORAGE_DEVICE/config/Passwords.csv"
+
+# Photos
+PHOTOS_LIBRARY="/Users/hyunsulim/Pictures"
+PHOTOS_LIBRARY_BACKUP="$STORAGE_DEVICE/Pictures"
 
 # --- Functions ---
 
@@ -75,11 +84,19 @@ sync_documents() {
 		return 1
 	fi
 
-	echo "Copying/syncing '$BACKUP_DOCUMENTS' to '$BACKUP_BACKUP_DOCUMENTS'..."
-	rsync -ar --progress --stats "$BACKUP_DOCUMENTS/" "$BACKUP_BACKUP_DOCUMENTS/"
+	echo "Copying/syncing '$BACKUP_DOCUMENTS' to '$BACKUP_BACKUP_DOCUMENTS'."
+	if confirm "Are the destinations for initial backup-backup correct?"; then
+		rsync -ar --progress --stats "$BACKUP_DOCUMENTS/" "$BACKUP_BACKUP_DOCUMENTS/"
+	else
+		echo "Terminating..."
+	fi
 
-	echo "Copying/syncing '$LOCAL_DOCUMENTS' to '$BACKUP_DOCUMENTS'..."
-	rsync -ar --progress --stats "$LOCAL_DOCUMENTS/" "$BACKUP_DOCUMENTS/"
+	echo "Copying/syncing '$LOCAL_DOCUMENTS' to '$BACKUP_DOCUMENTS'."
+	if confirm "Are the destinations for backup correct?"; then
+		rsync -arR --progress --stats "$LOCAL_DOCUMENTS/./" "$BACKUP_DOCUMENTS/"
+	else
+		echo "Terminating..."
+	fi
 
 	if [ $? -eq 0 ]; then
 		echo "Documents folder synced successfully to '$BACKUP_DOCUMENTS'."
@@ -90,8 +107,26 @@ sync_documents() {
 	return 0
 }
 
-# --- Main Script ---
+sync_photos() {
+	echo "--- Syncing Photoes ---"
 
+	echo "Copying/syncing '$PHOTOS_LIBRARY' to '$PHOTOS_LIBRARY_BACKUP'"
+	if confirm "Are the destinations for photo backup correct?"; then
+		rsync -arR --progress --stats "$PHOTOS_LIBRARY/./" "$PHOTOS_LIBRARY_BACKUP/"
+	else
+		echo "Terminating..."
+	fi
+
+	if [ $? -eq 0 ]; then
+		echo "Photos folder synced successfully to '$PHOTOS_LIBRARY_BACKUP'."
+	else
+		echo "Error occurred during the Photo sync."
+		return 1
+	fi
+}
+
+# --- Main Script ---
+clear
 echo "Starting backup update process..."
 echo "Searching for backup device..."
 
@@ -112,6 +147,12 @@ if confirm "Do you want to sync your Documents folder?"; then
 	sync_documents
 else
 	echo "Skipping Documents folder sync."
+fi
+
+if confirm "Do you want to sync your Photos Library?"; then
+	sync_photos
+else
+	echo "Skipping Photos sync."
 fi
 
 if confirm "Do you want to update passwords (requires manual Keychain Access export)?"; then
