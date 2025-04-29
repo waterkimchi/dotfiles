@@ -86,14 +86,14 @@ sync_documents() {
 
 	echo "Copying/syncing '$BACKUP_DOCUMENTS' to '$BACKUP_BACKUP_DOCUMENTS'."
 	if confirm "Are the destinations for initial backup-backup correct?"; then
-		rsync -ar --progress --stats "$BACKUP_DOCUMENTS/" "$BACKUP_BACKUP_DOCUMENTS/"
+		rsync -arp --progress --stats "$BACKUP_DOCUMENTS/" "$BACKUP_BACKUP_DOCUMENTS/"
 	else
 		echo "Terminating..."
 	fi
 
 	echo "Copying/syncing '$LOCAL_DOCUMENTS' to '$BACKUP_DOCUMENTS'."
 	if confirm "Are the destinations for backup correct?"; then
-		rsync -arR --progress --stats "$LOCAL_DOCUMENTS/./" "$BACKUP_DOCUMENTS/"
+		rsync -arRp --progress --stats "$LOCAL_DOCUMENTS/./" "$BACKUP_DOCUMENTS/"
 	else
 		echo "Terminating..."
 	fi
@@ -112,7 +112,7 @@ sync_photos() {
 
 	echo "Copying/syncing '$PHOTOS_LIBRARY' to '$PHOTOS_LIBRARY_BACKUP'"
 	if confirm "Are the destinations for photo backup correct?"; then
-		rsync -arR --progress --stats "$PHOTOS_LIBRARY/./" "$PHOTOS_LIBRARY_BACKUP/"
+		rsync -arRp --progress --stats "$PHOTOS_LIBRARY/./" "$PHOTOS_LIBRARY_BACKUP/"
 	else
 		echo "Terminating..."
 	fi
