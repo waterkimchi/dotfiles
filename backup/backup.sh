@@ -17,6 +17,9 @@ PASSWORDS_FILE="$STORAGE_DEVICE/config/Passwords.csv"
 PHOTOS_LIBRARY="/Users/hyunsulim/Pictures"
 PHOTOS_LIBRARY_BACKUP="$STORAGE_DEVICE/Pictures"
 
+# Music
+MUSIC_BACKUP="$STORAGE_DEVICE/Music"
+
 # --- Functions ---
 
 confirm() {
@@ -107,6 +110,29 @@ sync_documents() {
 	return 0
 }
 
+sync_music() {
+	echo "--- Syncing Music ---"
+
+	if folderpath=$(osascript -e 'POSIX path of (choose folder with prompt "Pick a folder:")'); then
+		echo "Your folder is: $folderpath"
+		ls "$folderpath"
+		if confirm "Is the destination correct?"; then
+			rsync -arRp --progress --stats "$folderpath/./" "$MUSIC_BACKUP/"
+		else
+			echo "Terminating..."
+		fi
+	else
+		echo "Cancelled."
+	fi
+
+	if [ $? -eq 0 ]; then
+		echo "Photos folder synced successfully to '$PHOTOS_LIBRARY_BACKUP'."
+	else
+		echo "Error occurred during the Photo sync."
+		return 1
+	fi
+}
+
 sync_photos() {
 	echo "--- Syncing Photos ---"
 
@@ -147,6 +173,12 @@ if confirm "Do you want to sync your Documents folder?"; then
 	sync_documents
 else
 	echo "Skipping Documents folder sync."
+fi
+
+if confirm "Do you want to sync your Music?"; then
+	sync_music
+else
+	echo "Skipping music sync."
 fi
 
 if confirm "Do you want to sync your Photos Library?"; then
